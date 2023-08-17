@@ -12,7 +12,7 @@ const count = ref(0)
 </script>
 
 <template>
-  <h1>{{ msg }} {{ counter.name }}</h1>
+  <h1>{{ msg }} {{ counter.name }} {{counter.count}}</h1>
 
 
   <div class="card">
