@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, reactive, computed } from "vue";
+import { ref, watch, reactive, onMounted } from "vue";
 import { useStore } from "../store/useStore";
 import Table from "../components/Table.vue";
 const counter = useStore();
@@ -52,13 +52,22 @@ const desserts = reactive([
     calories: 518,
   },
 ]);
+const tipobusqueda = ref("");
+const productos = ref([{category: "men's clothing",
+description: "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
+id: 1,
+image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+price: 109.95,
+rating: {rate: 3.9, count: 120},
+title: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops"}]);
+const radio = ref("");
 const selected = ref("");
 const filtro = ref("");
 const dialog = ref(false);
 const firstName = ref("");
 const lastName = ref("");
 const names = ref("");
-const postreEncontrado= ref('')
+const postreEncontrado = ref("");
 const firstNameRules = ref([
   (value) => {
     if (value?.length > 3) return true;
@@ -66,6 +75,16 @@ const firstNameRules = ref([
     return "First name must be at least 3 characters.";
   },
 ]);
+onMounted(() => {
+  traeProd()
+})
+function traeProd() {
+  fetch("https://fakestoreapi.com/products")
+    .then((res) => res.json())
+   
+    .then((json) =>( (productos.value=json)))
+    .then((json) => console.log(productos.value))
+}
 function del() {
   if (selected.value) {
     const i = names.indexOf(selected.value);
@@ -90,36 +109,79 @@ function guardaEmpleado() {
   } else {
   }
 }
+function convertirProxyAArray(proxy) {
+  const arrayProxy = new Proxy(proxy, {
+  get(target, prop) {
+    // Intercepta las operaciones de lectura en el Proxy
+    if (prop === 'length') {
+      return target.length; // Devuelve la longitud del Array subyacente
+    } else {
+      return target[prop]; // Devuelve el valor de la propiedad correspondiente en el Array subyacente
+    }
+  
+}})
+console.log(arrayProxy)
+}
 
 function filteredNames() {
-
-  postreEncontrado.value = desserts.find(function(dessert) {
-        return dessert.name === filtro.value;
-    });
   
-   // Si "postreEncontrado" es válido, agrégalo nuevamente a "desserts"
-   if (postreEncontrado) {
-    desserts.length = 0;
-    desserts.push({
-      name: postreEncontrado.value.name,
-      calories: postreEncontrado.value.calories
-    });
+ 
+  console.log(productos.value.length)
+  if (Array.isArray(productos.value)) {
+  postreEncontrado.value = productos.value.find(function (producto) {
+    return producto.id === filtro.value;
+  });
+  console.log(postreEncontrado.value);
+  // Si "postreEncontrado" es válido, agrégalo nuevamente a "desserts"
+  if (true) {
+    console.log(postreEncontrado.value.category)
+    productos.value.length = 0;
+  
+    productos.value.push(postreEncontrado.value) 
   }
-  console.log(desserts.value);
-    console.log(postreEncontrado.value.name)
+}else{
+    console.log('no es un arreglo')
 }
+console.log(productos.value)
+  
+}
+// function filteredNames() {
+  
+//   postreEncontrado.value = desserts.find(function (dessert) {
+//     return dessert.name === filtro.value;
+//   });
+
+//   // Si "postreEncontrado" es válido, agrégalo nuevamente a "desserts"
+//   if (postreEncontrado) {
+//     desserts.length = 0;
+//     desserts.push({
+//       name: postreEncontrado.value.name,
+//       calories: postreEncontrado.value.calories,
+//     });
+//   }
+//   console.log(desserts.value);
+//   console.log(postreEncontrado.value.name);
+// }
 import JSConfetti from "js-confetti";
 const confetti = new JSConfetti();
 
 function showConfetti() {
   confetti.addConfetti();
 }
-
+function seleccionabusqueda() {
+  switch (radio.value) {
+    case "description":
+      tipobusqueda.value = "description";
+      break;
+    case "category":
+      tipobusqueda.value = "category";
+      break;
+  }
+}
 ///////////////////
 </script>
 
 <template>
-  
   <h1 @click="showConfetti">🎉 Congratulations!</h1>
 
   <v-dialog width="400px" v-model="dialog">
@@ -223,7 +285,7 @@ function showConfetti() {
           <v-card-text>
             <v-row>
               <v-col md="2"> <h3>Empleados</h3></v-col>
-              <v-col md="8" >
+              <v-col md="4">
                 <!-- <v-text-field
                 v-model="filtro"
                 label="Filtro"
@@ -232,14 +294,24 @@ function showConfetti() {
               ></v-text-field
             > -->
                 <v-autocomplete
-                v-model="filtro"
+                  v-model="filtro"
                   label="Autocomplete"
-                  :items="desserts"
-                  item-title="name"
-                  item-value="name"
-                
+                  :items="productos"
+                  :item-title="tipobusqueda"
+                  item-value="id"
                 ></v-autocomplete>
               </v-col>
+              <v-col md="2">
+                <v-radio-group v-model="radio">
+                  <v-radio value="description" @click="seleccionabusqueda()"
+                    >name</v-radio
+                  >
+                  <v-radio value="category" @click="seleccionabusqueda()"
+                    >calories</v-radio
+                  >
+                </v-radio-group>
+              </v-col>
+              {{ radio }} {{ tipobusqueda }}
               <v-col md="2">
                 <v-btn
                   style="margin-left: 10px; margin-top: 10px"
@@ -248,27 +320,26 @@ function showConfetti() {
                 >
                   Agregar
                 </v-btn>
-                <v-btn  @click="filteredNames()">buscar</v-btn>
-                </v-col
-              >
+                <v-btn @click="filteredNames()">mostrar</v-btn>
+              </v-col>
             </v-row>
           </v-card-text>
         </v-card>
-        <v-table height="300px"   @click="filteredNames()">
+        <v-table height="300px" @click="filteredNames()">
           <thead>
             <tr>
-              <th class="text-left">Name</th>
-              <th class="text-left">Calories</th>
+              <th class="text-left">Categoria</th>
+              <th class="text-left">Descripcion</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in desserts" :key="item.name">
-              <td>{{ item.name }}</td>
-              <td>{{ item.calories }}</td>
+            <tr v-for="item in productos" :key="item.category">
+              <td>{{ item.category }}</td>
+              <td>{{ item.description }}</td>
             </tr>
           </tbody>
         </v-table>
-        {{ postreEncontrado.name }} {{ desserts }}
+        {{ postreEncontrado }} 
         <br />
         <Table />
       </v-card-text>

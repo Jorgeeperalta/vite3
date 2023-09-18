@@ -6,7 +6,7 @@ export const useStore = defineStore('storeId', {
     return {
       // all these properties will have their type inferred automatically
       count: 25,
-      name: 'Eduardo',
+      name: 'prueba',
       isAdmin: true,
       items: [],
       hasChanged: true,
