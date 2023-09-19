@@ -53,17 +53,23 @@ const desserts = reactive([
   },
 ]);
 const tipobusqueda = ref("");
-const productos = ref([{category: "men's clothing",
-description: "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
-id: 1,
-image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
-price: 109.95,
-rating: {rate: 3.9, count: 120},
-title: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops"}]);
+const productos = ref([
+  {
+    category: "men's clothing",
+    description:
+      "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
+    id: 1,
+    image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+    price: 109.95,
+    rating: { rate: 3.9, count: 120 },
+    title: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+  },
+]);
 const radio = ref("");
 const selected = ref("");
 const filtro = ref("");
 const dialog = ref(false);
+const dialogAlert = ref(false);
 const firstName = ref("");
 const lastName = ref("");
 const names = ref("");
@@ -76,14 +82,14 @@ const firstNameRules = ref([
   },
 ]);
 onMounted(() => {
-  traeProd()
-})
+  traeProd();
+});
 function traeProd() {
   fetch("https://fakestoreapi.com/products")
     .then((res) => res.json())
-   
-    .then((json) =>( (productos.value=json)))
-    .then((json) => console.log(productos.value))
+
+    .then((json) => (productos.value = json))
+    .then((json) => console.log(productos.value));
 }
 function del() {
   if (selected.value) {
@@ -100,53 +106,58 @@ watch(selected, (name) => {
 function hasValidInput() {
   return firstName.value.trim() && lastName.value.trim();
 }
+//
+// function guardaEmpleado() {
+//   if (hasValidInput()) {
+//     desserts.push({
+//       name: firstName.value,
+//       calories: lastName.value,
+//     });
+//   } else {
+//   }
+// }
 function guardaEmpleado() {
   if (hasValidInput()) {
-    desserts.push({
-      name: firstName.value,
-      calories: lastName.value,
+    productos.value.push({
+      category: firstName.value,
+      description: lastName.value,
+      id: 30,
+      image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+      price: 109.95,
+      rating: { rate: 3.9, count: 120 },
+      title: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
     });
+    dialogAlert.value = true;
+    setTimeout(() => {
+      dialogAlert.value = false;
+    }, 3000);
+
+    dialog.value = false;
   } else {
   }
 }
-function convertirProxyAArray(proxy) {
-  const arrayProxy = new Proxy(proxy, {
-  get(target, prop) {
-    // Intercepta las operaciones de lectura en el Proxy
-    if (prop === 'length') {
-      return target.length; // Devuelve la longitud del Array subyacente
-    } else {
-      return target[prop]; // Devuelve el valor de la propiedad correspondiente en el Array subyacente
-    }
-  
-}})
-console.log(arrayProxy)
-}
 
 function filteredNames() {
-  
- 
-  console.log(productos.value.length)
+  console.log(productos.value.length);
   if (Array.isArray(productos.value)) {
-  postreEncontrado.value = productos.value.find(function (producto) {
-    return producto.id === filtro.value;
-  });
-  console.log(postreEncontrado.value);
-  // Si "postreEncontrado" es válido, agrégalo nuevamente a "desserts"
-  if (true) {
-    console.log(postreEncontrado.value.category)
-    productos.value.length = 0;
-  
-    productos.value.push(postreEncontrado.value) 
+    postreEncontrado.value = productos.value.find(function (producto) {
+      return producto.id === filtro.value;
+    });
+    console.log(postreEncontrado.value);
+    // Si "postreEncontrado" es válido, agrégalo nuevamente a "desserts"
+    if (true) {
+      console.log(postreEncontrado.value.category);
+      productos.value.length = 0;
+
+      productos.value.push(postreEncontrado.value);
+    }
+  } else {
+    console.log("no es un arreglo");
   }
-}else{
-    console.log('no es un arreglo')
-}
-console.log(productos.value)
-  
+  console.log(productos.value);
 }
 // function filteredNames() {
-  
+
 //   postreEncontrado.value = desserts.find(function (dessert) {
 //     return dessert.name === filtro.value;
 //   });
@@ -183,6 +194,17 @@ function seleccionabusqueda() {
 
 <template>
   <h1 @click="showConfetti">🎉 Congratulations!</h1>
+  <v-dialog width="800px" v-model="dialogAlert">
+    <v-card color="success">
+      <v-sheet width="800px" class="mx-auto" color="success">
+        <v-alert
+          type="success"
+          title="Se almaceno con exito"
+          text="kulgggggggggggoihohoi!"
+        ></v-alert>
+      </v-sheet>
+    </v-card>
+  </v-dialog>
 
   <v-dialog width="400px" v-model="dialog">
     <v-card>
@@ -339,7 +361,7 @@ function seleccionabusqueda() {
             </tr>
           </tbody>
         </v-table>
-        {{ postreEncontrado }} 
+        {{ postreEncontrado }}
         <br />
         <Table />
       </v-card-text>
