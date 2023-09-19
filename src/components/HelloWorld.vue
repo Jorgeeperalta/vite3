@@ -2,6 +2,7 @@
 import { ref, watch, reactive, onMounted } from "vue";
 import { useStore } from "../store/useStore";
 import Table from "../components/Table.vue";
+import Table2 from "../components/Table2.vue";
 const counter = useStore();
 
 defineProps({
@@ -238,7 +239,7 @@ function seleccionabusqueda() {
     <v-card
       class="mx-auto"
       max-width="1200"
-      height="1300px"
+      height="30000px"
       style="margin-top: -64px"
     >
       <v-toolbar flat>
@@ -363,7 +364,8 @@ function seleccionabusqueda() {
         </v-table>
         {{ postreEncontrado }}
         <br />
-        <Table />
+        <Table/>
+        <Table2/>
       </v-card-text>
     </v-card>
   </v-card>
