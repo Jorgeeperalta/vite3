@@ -129,7 +129,7 @@ function guardaEmpleado() {
     });
     dialogAlert.value = true;
     setTimeout(() => {
-      dialogAlert.value = false;
+      dialogAlert.value = false; showConfetti()
     }, 3000);
 
     dialog.value = false;
