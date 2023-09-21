@@ -197,7 +197,7 @@ function seleccionabusqueda() {
   <h1 @click="showConfetti">🎉 Congratulations!</h1>
   <v-dialog width="800px" v-model="dialogAlert">
     <v-card color="success">
-      <v-sheet width="800px" class="mx-auto" color="success">
+      <v-sheet width="800px" class="mx-auto" :color="counter.color">
         <v-alert
           type="success"
           title="Se almaceno con exito"
@@ -232,7 +232,7 @@ function seleccionabusqueda() {
     </v-card>
   </v-dialog>
   <v-card flat>
-    <v-toolbar color="primary" dark extended flat>
+    <v-toolbar :color="counter.color" dark extended flat>
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
     </v-toolbar>
 
@@ -270,7 +270,7 @@ function seleccionabusqueda() {
           width="100%"
           class="pa-4 text-center mx-auto"
         >
-          <v-icon class="mb-5" color="success" size="112"
+          <v-icon class="mb-5" :color="counter.color" size="112"
             >mdi-check-circle</v-icon
           >
 
@@ -304,18 +304,18 @@ function seleccionabusqueda() {
         </v-sheet>
         <br />
         <v-divider></v-divider>
-        <v-card max-width="1200" max-height="80">
+        <!-- <v-card max-width="1200" max-height="80">
           <v-card-text>
             <v-row>
               <v-col md="2"> <h3>Empleados</h3></v-col>
               <v-col md="4">
-                <!-- <v-text-field
+               <v-text-field
                 v-model="filtro"
                 label="Filtro"
                 @click="filteredNames"
                
               ></v-text-field
-            > -->
+            > 
                 <v-autocomplete
                   v-model="filtro"
                   label="Autocomplete"
@@ -347,8 +347,8 @@ function seleccionabusqueda() {
               </v-col>
             </v-row>
           </v-card-text>
-        </v-card>
-        <v-table height="300px" @click="filteredNames()">
+        </v-card> -->
+        <!-- <v-table height="300px" @click="filteredNames()">
           <thead>
             <tr>
               <th class="text-left">Categoria</th>
@@ -361,10 +361,10 @@ function seleccionabusqueda() {
               <td>{{ item.description }}</td>
             </tr>
           </tbody>
-        </v-table>
+        </v-table> -->
         {{ postreEncontrado }}
         <br />
-        <Table/>
+      
         <Table2/>
       </v-card-text>
     </v-card>
