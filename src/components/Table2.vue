@@ -111,7 +111,7 @@
 
   <v-btn @click="store.doble"> </v-btn>
  {{aux = store.count }}
- 
+ {{ store.productos }}
 <p style="color: #FDFDFD"> {{ aux}} </p> 
   <v-dialog width="800px" v-model="dialogAlert">
     <v-card color="success">
@@ -131,7 +131,7 @@ import { ref, onMounted } from "vue";
 import { useCounterStore } from '../store/useCounterStore'
 const store = useCounterStore()
 const counter = useStore();
-
+const muestra_productos= ref([]);
 
 const productos = ref([
   {
@@ -146,7 +146,7 @@ const productos = ref([
   },
 ]);
 onMounted(() => {
-  store.traeProducto();
+ store.traeProducto();
   
   
 });

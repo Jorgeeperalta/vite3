@@ -19,6 +19,7 @@ export const useCounterStore = defineStore('counter', {
       
           .then((json) => (this.productos = json))
           .then((json) => console.log(this.productos));
+          return this.productos
       }
     },
   })
