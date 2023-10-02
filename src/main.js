@@ -16,4 +16,5 @@ const pinia = createPinia()
 const app = createApp(App)
 app.use(vuetify)
 app.use(pinia)
+app.provide('message','var global');
 app.mount('#app')

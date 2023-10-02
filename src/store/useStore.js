@@ -10,7 +10,7 @@ export const useStore = defineStore('storeId', {
       isAdmin: true,
       items: [],
       hasChanged: true,
-      color:'#009688',
+      color:'',
     }
   },
 })

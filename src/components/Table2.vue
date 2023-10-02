@@ -106,13 +106,33 @@
 
   {{ (counter.color = counter.name) }}
 
-  {{ productos.price }}
+{{ global  }}
+
+
+  <v-btn @click="store.doble"> </v-btn>
+ {{aux = store.count }}
+ 
+<p style="color: #FDFDFD"> {{ aux}} </p> 
+  <v-dialog width="800px" v-model="dialogAlert">
+    <v-card color="success">
+      <v-sheet width="800px" class="mx-auto" :color="counter.color">
+        <v-alert
+          type="success"
+          title="Se almaceno con exito"
+          text="kulgggggggggggoihohoi!"
+        ></v-alert>
+      </v-sheet>
+    </v-card>
+  </v-dialog>
 </template>
 <script setup>
 import { useStore } from "../store/useStore";
 import { ref, onMounted } from "vue";
+import { useCounterStore } from '../store/useCounterStore'
+const store = useCounterStore()
 const counter = useStore();
-const variable = ref("hola mundo");
+
+
 const productos = ref([
   {
     category: "men's clothing",
@@ -126,7 +146,9 @@ const productos = ref([
   },
 ]);
 onMounted(() => {
-  traeProd();
+  store.traeProducto();
+  
+  
 });
 function traeProd() {
   fetch("https://fakestoreapi.com/products")
@@ -138,12 +160,18 @@ function traeProd() {
 </script>
 <script>
 import { VDataTable } from "vuetify/labs/VDataTable";
-
+import JSConfetti from "js-confetti";
+const aux= 0;
+const confetti = new JSConfetti();
 export default {
   components: {
     VDataTable,
   },
+  
   data: () => ({
+    global:'',
+    storeDoble:0,
+    dialogAlert: false,
     prueba: "",
     dialog: false,
     dialogDelete: false,
@@ -195,9 +223,18 @@ export default {
 
   created() {
     this.initialize();
+   
   },
-
+  inject:['message'],
+    mounted(){
+      this.global= this.message
+    console.log(this.message)
+  },
   methods: {
+    showConfetti() {
+      confetti.addConfetti();
+    },
+
     initialize() {
       this.desserts = [
         {
@@ -311,6 +348,11 @@ export default {
         Object.assign(this.desserts[this.editedIndex], this.editedItem);
       } else {
         this.desserts.push(this.editedItem);
+        this.dialogAlert = true;
+        setTimeout(() => {
+          this.dialogAlert = false;
+          this.showConfetti();
+        }, 3000);
       }
       this.close();
     },
