@@ -124,6 +124,9 @@
       </v-sheet>
     </v-card>
   </v-dialog>
+  <button @click="start">Start</button>
+    <button @click="stop">Stop</button>
+    <button @click="love">Show some love</button>
 </template>
 <script setup>
 import { useStore } from "../store/useStore";
@@ -159,6 +162,7 @@ function traeProd() {
 }
 </script>
 <script>
+
 import { VDataTable } from "vuetify/labs/VDataTable";
 import JSConfetti from "js-confetti";
 const aux= 0;
@@ -231,6 +235,31 @@ export default {
     console.log(this.message)
   },
   methods: {
+    start() {
+        this.$confetti.start();
+      },
+
+      stop() {
+        this.$confetti.stop();
+      },
+
+      love() {
+        this.$confetti.update({
+          particles: [
+            {
+              type: 'heart',
+            },
+            {
+              type: 'circle',
+            },
+          ],
+          defaultColors: [
+            'red',
+            'pink',
+            '#ba0000'
+          ],
+        });
+      },
     showConfetti() {
       confetti.addConfetti();
     },
