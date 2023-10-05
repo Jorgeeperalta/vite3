@@ -9,3 +9,5 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 version node v16.10.0
 icons yarn add @mdi/font
 maim.js  import '@mdi/font/css/materialdesignicons.css'
+
+https://vant-contrib.gitee.io/vant/#/en-US/quickstart

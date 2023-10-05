@@ -106,13 +106,12 @@
 
   {{ (counter.color = counter.name) }}
 
-{{ global  }}
-
+  {{ global }}
 
   <v-btn @click="store.doble"> </v-btn>
- {{aux = store.count }}
- {{ store.productos }}
-<p style="color: #FDFDFD"> {{ aux}} </p> 
+  {{ (aux = store.count) }}
+  {{ store.productos }}
+  <p style="color: #fdfdfd">{{ aux }}</p>
   <v-dialog width="800px" v-model="dialogAlert">
     <v-card color="success">
       <v-sheet width="800px" class="mx-auto" :color="counter.color">
@@ -125,16 +124,46 @@
     </v-card>
   </v-dialog>
   <button @click="start">Start</button>
-    <button @click="stop">Stop</button>
-    <button @click="love">Show some love</button>
+  <button @click="stop">Stop</button>
+  <button @click="love">Show some love</button>
+  <button @click="show = true">Calendario</button>
+
+  <van-button @click="start" type="primary" />
+  <v-dialog  height="600" width="600" v-model="show">
+    <v-card  
+      ><v-card-text>
+        <van-calendar
+          v-model:show="show"
+          type="range"
+          @confirm="onConfirm" /></v-card-text
+    ></v-card>
+  </v-dialog>
+  {{ date }}
 </template>
 <script setup>
 import { useStore } from "../store/useStore";
 import { ref, onMounted } from "vue";
-import { useCounterStore } from '../store/useCounterStore'
-const store = useCounterStore()
+import { useCounterStore } from "../store/useCounterStore";
+import { Locale } from "vant";
+import esES from "vant/es/locale/lang/es-ES";
+
+Locale.use("es-ES", esES);
+const store = useCounterStore();
 const counter = useStore();
-const muestra_productos= ref([]);
+const muestra_productos = ref([]);
+const date = ref("");
+const show = ref(false);
+
+const formatDate = (date) => `${date.getDate()}/${date.getMonth() + 1}`;
+function onConfirm(values) {
+  const [start, end] = values;
+  show.value = false;
+  date.value = `${formatDate(start)} - ${formatDate(end)}`;
+  return {
+    date,
+    show,
+  };
+}
 
 const productos = ref([
   {
@@ -149,9 +178,7 @@ const productos = ref([
   },
 ]);
 onMounted(() => {
- store.traeProducto();
-  
-  
+  store.traeProducto();
 });
 function traeProd() {
   fetch("https://fakestoreapi.com/products")
@@ -162,19 +189,18 @@ function traeProd() {
 }
 </script>
 <script>
-
 import { VDataTable } from "vuetify/labs/VDataTable";
 import JSConfetti from "js-confetti";
-const aux= 0;
+const aux = 0;
 const confetti = new JSConfetti();
 export default {
   components: {
     VDataTable,
   },
-  
+
   data: () => ({
-    global:'',
-    storeDoble:0,
+    global: "",
+    storeDoble: 0,
     dialogAlert: false,
     prueba: "",
     dialog: false,
@@ -227,39 +253,34 @@ export default {
 
   created() {
     this.initialize();
-   
   },
-  inject:['message'],
-    mounted(){
-      this.global= this.message
-    console.log(this.message)
+  inject: ["message"],
+  mounted() {
+    this.global = this.message;
+    console.log(this.message);
   },
   methods: {
     start() {
-        this.$confetti.start();
-      },
+      this.$confetti.start();
+    },
 
-      stop() {
-        this.$confetti.stop();
-      },
+    stop() {
+      this.$confetti.stop();
+    },
 
-      love() {
-        this.$confetti.update({
-          particles: [
-            {
-              type: 'heart',
-            },
-            {
-              type: 'circle',
-            },
-          ],
-          defaultColors: [
-            'red',
-            'pink',
-            '#ba0000'
-          ],
-        });
-      },
+    love() {
+      this.$confetti.update({
+        particles: [
+          {
+            type: "heart",
+          },
+          {
+            type: "circle",
+          },
+        ],
+        defaultColors: ["red", "pink", "#ba0000"],
+      });
+    },
     showConfetti() {
       confetti.addConfetti();
     },
