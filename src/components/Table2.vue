@@ -129,10 +129,18 @@
   <button @click="show = true">Calendario</button>
 
   <van-button @click="start" type="primary" />
-  <v-dialog  height="600" width="600" v-model="show">
-    <v-card  
+   <img
+          height="200"
+          src="./assets/persona.png"
+      
+      >
+  <v-dialog height="600" width="500" v-model="show">
+    <v-card
       ><v-card-text>
         <van-calendar
+        :min-date="minDate" :max-date="maxDate" 
+        :max-range="3333"
+        :round="false" position="right"
           v-model:show="show"
           type="range"
           @confirm="onConfirm" /></v-card-text
@@ -146,17 +154,23 @@ import { ref, onMounted } from "vue";
 import { useCounterStore } from "../store/useCounterStore";
 import { Locale } from "vant";
 import esES from "vant/es/locale/lang/es-ES";
+// Just import this module, then Vant works in PC browser
+import '@vant/touch-emulator';
+
 
 Locale.use("es-ES", esES);
-const store = useCounterStore();
-const counter = useStore();
-const muestra_productos = ref([]);
-const date = ref("");
-const show = ref(false);
+let store = useCounterStore();
+let counter = useStore();
+let muestra_productos = ref([]);
+let date = ref("");
+let show = ref(false);
+let minDate =new Date(2018,0);
+let maxDate= new Date(2023,11);
 
-const formatDate = (date) => `${date.getDate()}/${date.getMonth() + 1}`;
+
+let formatDate = (date) => `${date.getDate()}/${date.getMonth() + 1}`;
 function onConfirm(values) {
-  const [start, end] = values;
+  let [start, end] = values;
   show.value = false;
   date.value = `${formatDate(start)} - ${formatDate(end)}`;
   return {
@@ -165,7 +179,7 @@ function onConfirm(values) {
   };
 }
 
-const productos = ref([
+let productos = ref([
   {
     category: "men's clothing",
     description:
@@ -178,7 +192,8 @@ const productos = ref([
   },
 ]);
 onMounted(() => {
-  store.traeProducto();
+  traeProd();
+  store.traeProducto(); 
 });
 function traeProd() {
   fetch("https://fakestoreapi.com/products")
@@ -191,8 +206,8 @@ function traeProd() {
 <script>
 import { VDataTable } from "vuetify/labs/VDataTable";
 import JSConfetti from "js-confetti";
-const aux = 0;
-const confetti = new JSConfetti();
+let aux = 0;
+let confetti = new JSConfetti();
 export default {
   components: {
     VDataTable,

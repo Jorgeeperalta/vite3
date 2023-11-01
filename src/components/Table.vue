@@ -108,7 +108,7 @@
 import { VDataTable } from 'vuetify/labs/VDataTable'
 
 import { ref } from "vue";
-const desserts = ref([
+let desserts = ref([
 {
             name: 'Frozen Yogurt',
             calories: 159,
@@ -180,9 +180,9 @@ const desserts = ref([
             protein: 7,
           }
 ]);
-const dialog = ref(false);
-const dialogDelete = ref(false);
-const headers = ref([
+let dialog = ref(false);
+let dialogDelete = ref(false);
+let headers = ref([
   {
     title: "Dessert (100g serving)",
     align: "start",
@@ -196,15 +196,15 @@ const headers = ref([
   { title: "Actions", key: "actions", sortable: false },
 ]);
 
-const editedIndex = ref(-1);
-const editedItem = ref({
+let editedIndex = ref(-1);
+let editedItem = ref({
   name: "",
   calories: 0,
   fat: 0,
   carbs: 0,
   protein: 0,
 });
-const defaultItem = ref({
+let defaultItem = ref({
   name: "",
   calories: 0,
   fat: 0,

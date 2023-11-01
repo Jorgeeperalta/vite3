@@ -3,15 +3,15 @@ import { ref, watch, reactive, onMounted } from "vue";
 import { useStore } from "../store/useStore";
 import Table from "../components/Table.vue";
 import Table2 from "../components/Table2.vue";
-const counter = useStore();
+let counter = useStore();
 
 defineProps({
   msg: String,
 });
 
-const count = ref(0);
+let count = ref(0);
 
-const desserts = reactive([
+let desserts = reactive([
   {
     name: "Frozen Yogurt",
     calories: 159,
@@ -53,8 +53,8 @@ const desserts = reactive([
     calories: 518,
   },
 ]);
-const tipobusqueda = ref("");
-const productos = ref([
+let tipobusqueda = ref("");
+let productos = ref([
   {
     category: "men's clothing",
     description:
@@ -66,16 +66,16 @@ const productos = ref([
     title: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
   },
 ]);
-const radio = ref("");
-const selected = ref("");
-const filtro = ref("");
-const dialog = ref(false);
-const dialogAlert = ref(false);
-const firstName = ref("");
-const lastName = ref("");
-const names = ref("");
-const postreEncontrado = ref("");
-const firstNameRules = ref([
+let radio = ref("");
+let selected = ref("");
+let filtro = ref("");
+let dialog = ref(false);
+let dialogAlert = ref(false);
+let firstName = ref("");
+let lastName = ref("");
+let names = ref("");
+let postreEncontrado = ref("");
+let firstNameRules = ref([
   (value) => {
     if (value?.length > 3) return true;
 
@@ -94,7 +94,7 @@ function traeProd() {
 }
 function del() {
   if (selected.value) {
-    const i = names.indexOf(selected.value);
+    let i = names.indexOf(selected.value);
     names.splice(i, 1);
     selected.value = first.value = last.value = "";
   }
@@ -175,7 +175,7 @@ function filteredNames() {
 //   console.log(postreEncontrado.value.name);
 // }
 import JSConfetti from "js-confetti";
-const confetti = new JSConfetti();
+let confetti = new JSConfetti();
 
 function showConfetti() {
   confetti.addConfetti();
@@ -239,7 +239,7 @@ function seleccionabusqueda() {
     <v-card
       class="mx-auto"
       max-width="1200"
-      height="30000px"
+      height="3000px"
       style="margin-top: -64px"
     >
       <v-toolbar flat>

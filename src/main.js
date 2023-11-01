@@ -10,6 +10,7 @@ import '@mdi/font/css/materialdesignicons.css'
 import VueConfetti from 'vue-confetti'
 import { Button } from 'vant';
 import { Calendar } from 'vant';
+import  router  from "./router";
 // 2. Import the components style
 import 'vant/lib/index.css';
 
@@ -20,10 +21,11 @@ const vuetify = createVuetify({
 
 const pinia = createPinia()
 const app = createApp(App)
+app.use(router)
 app.use(vuetify)
 app.use(pinia)
 app.use(VueConfetti)
 app.use(Button)
 app.use(Calendar);
-app.provide('message','var global');
+app.provide('message','variable   global');
 app.mount('#app')
