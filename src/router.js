@@ -2,6 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from './views/Hello.vue'
 import Mapa from './views/MapaGoogle.vue'
 import MapaHtml from './views/MapaHtml.vue'
+import MapaLeaflet from './views/MapaLeaflet.vue'
+import MapaOpenlayers from './views/MapaOpenlayers.vue'
+import MapaVideo from './views/VideoMapa.vue'
+import Video from './views/VideoRecord.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,9 +21,29 @@ const router = createRouter({
       component: Mapa
     },
     {
+      path: '/video',
+      name: 'video',
+      component: Video
+    },
+    {
+      path: '/mapaOpen',
+      name: 'mapaOpen',
+      component: MapaOpenlayers
+    },
+    {
+      path: '/mapaVideo',
+      name: 'mapaVideo',
+      component: MapaVideo
+    },
+    {
       path: '/mapahtml',
       name: 'mapahtml',
       component: MapaHtml
+    },
+    {
+      path: '/mapaleaflet',
+      name: 'mapaleaflet',
+      component: MapaLeaflet
     },
     {
       path: '/about',

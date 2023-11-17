@@ -11,7 +11,8 @@ import VueConfetti from 'vue-confetti'
 import { Button } from 'vant';
 import { Calendar } from 'vant';
 import  router  from "./router";
-// 2. Import the components style
+import OpenLayersMap from "vue3-openlayers";
+import "vue3-openlayers/styles.css"; // vue3-openlayers version < 1.0.0-*
 import 'vant/lib/index.css';
 
 const vuetify = createVuetify({
@@ -21,6 +22,7 @@ const vuetify = createVuetify({
 
 const pinia = createPinia()
 const app = createApp(App)
+app.use(OpenLayersMap /* options */);
 app.use(router)
 app.use(vuetify)
 app.use(pinia)

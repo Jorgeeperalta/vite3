@@ -11,6 +11,18 @@
     <router-link to="/mapahtml"
       >/mapa html</router-link
     >
+    <router-link to="/mapaleaflet"
+      >/mapa leaflet</router-link
+    >
+    <router-link to="/mapaopen"
+      >/mapa openlayers</router-link
+    >
+    <router-link to="/mapaVideo"
+      >/mapa videos</router-link
+    >
+    <router-link to="/video"
+      >/video</router-link
+    >
   
     </v-main>
   </v-app>

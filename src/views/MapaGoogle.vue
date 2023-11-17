@@ -1,5 +1,6 @@
 <template>
-    <GoogleMap api-key="AIzaSyCB7qwMnXsWaELVjEd0SR0N38SxyK2mT_M" style="width: 100%; height: 500px" :center="center" :zoom="15"  :libraries="['visualization']">
+    <GoogleMap  @bounds_changed="setCoordinates"
+  @dragend="coordinates" api-key="AIzaSyCB7qwMnXsWaELVjEd0SR0N38SxyK2mT_M" style="width: 100%; height: 500px" :center="center" :zoom="15"  :libraries="['visualization']">
       <Marker :options="{ position: center }" >
         <InfoWindow>
         <div id="content">
